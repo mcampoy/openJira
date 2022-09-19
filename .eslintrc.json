@@ -1,3 +1,90 @@
+// {
+//   "extends": "next/core-web-vitals"
+// }
+
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "node": true, // this is the best starting point
+    "browser": true, // for react web
+    "es6": true, // enables es6 features
+    "jest": true
+  },
+  "parser": "babel-eslint", // needed to make babel stuff work properly
+  "extends": [
+    "airbnb",
+    "prettier"
+  ],
+  "plugins": [
+    "react-hooks",
+    "jest"
+  ],
+  "ignorePatterns": [
+    "src//*.css",
+    "src//*.scss",
+    "src//*.test.js",
+    "src/reportWebVitals.js",
+    "src//*.svg"
+  ],
+  "rules": {
+    "linebreak-style": ["warn", "windows"],
+    "no-console": 2,
+    "comma-dangle": [2, "never"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-cycle": "warn",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/prefer-stateless-function": [
+      0,
+      {
+        "ignorePureComponents": true
+      }
+    ],
+    "import/no-extraneous-dependencies": 0,
+    "react/destructuring-assignment": [
+      2,
+      "always",
+      {
+        "ignoreClassFields": true
+      }
+    ],
+    "react/prop-types": [
+      "warn",
+      {
+        "ignore": ["navigation", "screenProps"]
+      }
+    ],
+    "react/jsx-props-no-spreading": [
+      1,
+      {
+        "custom": "enforce",
+        "exceptions": ["ContentLayout"]
+      }
+    ],
+    "camelcase": "off",
+    "max-len": [1, { "code": 100 }],
+    "object-curly-newline": [
+      "warn",
+      {
+        "ObjectExpression": { "multiline": true, "minProperties": 1 },
+        "ObjectPattern": { "multiline": true },
+        "ImportDeclaration": "never",
+        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+      }
+    ],
+    "template-curly-spacing": "off",
+    "indent": [
+      "warn",
+      2,
+      {
+        "ignoredNodes": [
+          "TemplateLiteral"
+        ]
+      }
+    ]
+  }
 }
