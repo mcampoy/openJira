@@ -22,6 +22,9 @@ export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
       case 'GET':
       return getEntry(req, res);
 
+      case 'DELETE':
+      return deleteEntry(req, res);
+
       default:
       return res.status(400).json({ message: 'Método inexistente' })
   }
@@ -58,8 +61,6 @@ const updateEntry = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   // entryToUpdate.status = status;
   // await entryToUpdate.save()
 
-
-
 };
 
 const getEntry = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
@@ -77,6 +78,36 @@ const getEntry = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     await db.disconnect();
     res.status(200).json( foundedEntry! );
+  } catch (error: any) {
+    await db.disconnect();
+    res.status(400).json({ message: error.errors.status.message })
+  }
+
+  // entryToUpdate.description = description;
+  // entryToUpdate.status = status;
+  // await entryToUpdate.save()
+};
+
+const deleteEntry = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { id } = req.query;
+
+  await db.connect();
+
+  const entryToUpdate = await Entry.findById(id);
+
+  if(!entryToUpdate) {
+    await db.disconnect();
+    return res.status(400).json({ message: "No existe una entrada con ese ID " + id })
+  }
+
+  const {
+    deleteAt
+  } = req.body
+
+  try {
+    const updatedEntry = await Entry.findByIdAndUpdate( id, { deleteAt }, { runValidators: true, new: true } );
+    await db.disconnect();
+    res.status(200).json( updatedEntry! );
   } catch (error: any) {
     await db.disconnect();
     res.status(400).json({ message: error.errors.status.message })
